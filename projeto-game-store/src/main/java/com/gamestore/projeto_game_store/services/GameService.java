@@ -29,6 +29,13 @@ public class GameService {
 
     @Transactional
     public GameModel criar(GameRecordDto gameRecordDto){
+
+
+
+
+
+
+
         GameModel game = new GameModel();
 
         game.setTitulo(gameRecordDto.titulo());
