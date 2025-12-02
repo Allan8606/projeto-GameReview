@@ -1,4 +1,5 @@
-package com.gamestore.projeto_game_store.responses;
+package com.gamestore.projeto_game_store.dtos.response;
+
 
 import com.gamestore.projeto_game_store.models.PlataformaModel;
 import lombok.Builder;

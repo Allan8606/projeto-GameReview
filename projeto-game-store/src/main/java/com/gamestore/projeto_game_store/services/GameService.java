@@ -1,6 +1,9 @@
 package com.gamestore.projeto_game_store.services;
 
-import com.gamestore.projeto_game_store.dtos.GameRequestDto;
+
+import com.gamestore.projeto_game_store.dtos.request.GameRequest;
+import com.gamestore.projeto_game_store.dtos.response.GameResponse;
+import com.gamestore.projeto_game_store.mapper.GameMapper;
 import com.gamestore.projeto_game_store.models.GameModel;
 import com.gamestore.projeto_game_store.models.PlataformaModel;
 import com.gamestore.projeto_game_store.models.ReviewModel;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,7 +31,7 @@ public class GameService {
 
 
     @Transactional
-    public GameModel criar(GameRequestDto gameRequestDto){
+    public GameResponse criar(GameRequest gameRequestDto){
 
         GameModel game = new GameModel();
 
@@ -50,14 +54,38 @@ public class GameService {
 
         game.setReview(reviewModel);
 
-        return gameRepository.save(game);
+        GameModel save = gameRepository.save(game);
+        GameResponse gameResponse = GameMapper.paraResponse(save);
+        return gameResponse;
     }
 
-    public List<GameModel> buscarPeloTitulo(String titulo){
-        return gameRepository.findByTituloContainingIgnoreCase(titulo);
+    public List<GameResponse> buscarPeloTitulo(String titulo){
+        List<GameModel> listaNomes = gameRepository.findByTituloContainingIgnoreCase(titulo);
+
+       return listaNomes.stream()
+                .map(game -> GameMapper.paraResponse(game))
+                .toList();
     }
 
-    public List<GameModel> listarTodos(){
-        return gameRepository.findAll();
+    public GameResponse buscarPorId(UUID id) {
+        GameModel game = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game não encontrado"));
+
+        return GameMapper.paraResponse(game);
     }
+
+
+    public List<GameResponse> listarTodos(){
+
+        List<GameModel> todosGames = gameRepository.findAll();
+        return todosGames.stream()
+                .map(GameMapper::paraResponse).toList();
+    }
+
+    public void deletar(UUID id) {
+        GameModel game = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game não encontrado"));
+        gameRepository.delete(game);
+    }
+
 }

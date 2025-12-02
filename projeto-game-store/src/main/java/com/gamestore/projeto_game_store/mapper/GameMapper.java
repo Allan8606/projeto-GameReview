@@ -1,12 +1,14 @@
 package com.gamestore.projeto_game_store.mapper;
 
 
-import com.gamestore.projeto_game_store.dtos.GameRequestDto;
+
+import com.gamestore.projeto_game_store.dtos.request.GameRequest;
+import com.gamestore.projeto_game_store.dtos.response.GameResponse;
 import com.gamestore.projeto_game_store.models.GameModel;
 import com.gamestore.projeto_game_store.models.PlataformaModel;
 import com.gamestore.projeto_game_store.models.ReviewModel;
 import com.gamestore.projeto_game_store.models.StudioModel;
-import com.gamestore.projeto_game_store.responses.GameResponse;
+
 import lombok.experimental.UtilityClass;
 
 
@@ -40,7 +42,7 @@ public class GameMapper {
     }
 
 
-    public GameModel paraModel(GameRequestDto gameRequestDto,
+    public GameModel paraModel(GameRequest gameRequestDto,
                                StudioModel studio,
                                Set<PlataformaModel> plataformas,
                                ReviewModel review){

@@ -1,9 +1,9 @@
-package com.gamestore.projeto_game_store.dtos;
+package com.gamestore.projeto_game_store.dtos.request;
 
 import java.util.Set;
 import java.util.UUID;
 
-public record GameRequestDto(
+public record GameRequest(
         String titulo,
         UUID studioId,
         Set<UUID> plataformasIds,
