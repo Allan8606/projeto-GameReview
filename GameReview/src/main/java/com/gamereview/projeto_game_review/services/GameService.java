@@ -3,6 +3,7 @@ package com.gamereview.projeto_game_review.services;
 
 import com.gamereview.projeto_game_review.dtos.request.GameRequest;
 import com.gamereview.projeto_game_review.dtos.response.GameResponse;
+import com.gamereview.projeto_game_review.exception.GameNaoEncontradoException;
 import com.gamereview.projeto_game_review.mapper.GameMapper;
 import com.gamereview.projeto_game_review.models.GameModel;
 import com.gamereview.projeto_game_review.models.PlataformaModel;
@@ -68,12 +69,10 @@ public class GameService {
 
     public GameResponse buscarPorId(UUID id) {
         GameModel game = gameRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Game não encontrado"));
+                .orElseThrow(() -> new GameNaoEncontradoException());
 
         return GameMapper.paraResponse(game);
     }
-
-
     public List<GameResponse> listarTodos(){
 
         List<GameModel> todosGames = gameRepository.findAll();
